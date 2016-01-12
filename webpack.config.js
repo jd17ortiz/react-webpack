@@ -14,6 +14,9 @@ const paths = {
 
 const common = {
   entry: paths.app,
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   output: {
     path: paths.build,
     filename: 'bundle.js'
@@ -24,12 +27,19 @@ const common = {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader'],
         include: paths.app
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel?cacheDirectory'],
+        include: paths.app
       }
     ]
   },
   plugins: [
     new htmlwebpackPlugin({
-      title: 'TODO app'
+      template: 'node_modules/html-webpack-template/index.html',
+      title: 'TODO App',
+      appMountId: 'app'
     })
   ]
 };
