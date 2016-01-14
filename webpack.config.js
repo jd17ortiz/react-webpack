@@ -5,12 +5,14 @@ const htmlwebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
 
-const target = process.env.npm_lyfecycle_event;
+const target = process.env.npm_lifecycle_event;
 
 const paths = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build')
 };
+
+process.env.BABEL_ENV = target;
 
 const common = {
   entry: paths.app,
@@ -30,7 +32,11 @@ const common = {
       },
       {
         test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          presets: ['react', 'es2015', 'survivejs-kanban']
+        },
         include: paths.app
       }
     ]
