@@ -16,13 +16,12 @@ export default class Note extends
 
     render() {
       if (this.state.editing) return this.renderEdit();
-
       return this.renderNote();
     };
 
     renderEdit = () => {
       return <input type="text"
-        ref={
+        ref= {
           (e) => e ? e.selectionStart = this.props.task.length : null
         }
         autofocus={true}
@@ -36,14 +35,14 @@ export default class Note extends
 
       return (
         <div onClick={this.edit}>
-          <span>{this.props.task}</span>
+          <span className="task">{this.props.task}</span>
           {onDelete ? this.renderDelete() : null}
         </div>
       );
     };
 
     renderDelete = () => {
-      return <button onClick={this.props.onDelete}>X</button>;
+      return <button className="Button Button--remove" onClick={this.props.onDelete}>X</button>;
     };
 
     edit = () => {

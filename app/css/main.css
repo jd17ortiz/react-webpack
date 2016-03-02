@@ -1,3 +1,36 @@
 body {
-  background-color: cornsilk;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.Notes {
+  max-width: 300px;
+}
+
+.Note {
+  padding: .5rem;
+  list-style: none;
+}
+
+.Note:hover {
+  box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.7);
+  transition: all .6s ease;
+}
+
+.Button {
+  border: none;
+  color: #FFF;
+  font-weight: bold;
+}
+
+.Button--remove {
+  margin-left: .5rem
+}
+
+.Note input {
+  padding: 1rem;
+  border: none;
+  border-bottom: 2px solid #000;
+  font-size: 1rem;
+  outline: none;
 }

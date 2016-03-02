@@ -1,8 +1,9 @@
 'use strict';
 
-import uuid from 'node-uuid';
 import React from 'react';
 import Notes from './Notes.jsx';
+import NoteActions from '../actions/NoteActions';
+import NoteStore from '../stores/NoteStore';
 
 export default class App extends
 
@@ -10,54 +11,31 @@ React.Component {
 
   constructor(props) {
     super(props);
+    this.state = NoteStore.getState();
+  };
 
-    this.state = {
-      notes : [
-        {
-          id: uuid.v4(),
-          task: 'Having breakfast'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Take the dog out'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Take a shower'
-        },
-        {
-          id: uuid.v4(),
-          task: 'Coding for a while'
-        }
-      ],
-    };
+  componentDidMount() {
+    NoteStore.listen(this.storeChanged);
+  }
+
+  componentWillUnmount() {
+    NoteStore.unlisten(this.storeChanged);
+  }
+
+  storeChanged = (state) => {
+    this.setState(state);
   };
 
   addNote = () => {
-    this.setState({
-      notes: this.state.notes.concat([{
-        id: uuid.v4(),
-        task: 'New Task'
-      }])
-    });
+    NoteActions.create({task: 'New task'});
   };
 
   editNote = ( id, task ) => {
-    const notes = this.state.notes.map( note => {
-      if ( note.id === id && task ) {
-        note.task = task;
-      }
-
-      return note;
-    });
-
-    this.setState({notes});
+    NoteActions.update({id, task});
   };
 
   deleteNote = ( id ) => {
-    this.setState({
-      notes: this.state.notes.filter(note => note.id !== id)
-    });
+    NoteActions.delete(id);
   };
 
   render() {
@@ -65,12 +43,12 @@ React.Component {
 
     return (
       <div>
-        <button onClick={this.addNote}> Add Task </button>
+        <button className="Button" onClick={this.addNote}> Add Task </button>
         <Notes notes={notes}
           onEdit={this.editNote}
           onDelete={this.deleteNote} />
       </div>
     );
-  };
+  }
 
 }
